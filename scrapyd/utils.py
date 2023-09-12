@@ -35,7 +35,8 @@ class UtilsCache:
     invalid_cached_projects = []
 
     def __init__(self):
-        self.cache_manager = JsonSqliteDict(table="utils_cache_manager")
+        cache_db = Config().get("cache_dbs", default=":memory:")
+        self.cache_manager = JsonSqliteDict(database=cache_db, table="utils_cache_manager")
 
     # Invalid the spider's list's cache of a given project (by name)
     @staticmethod
@@ -118,12 +119,12 @@ def get_crawl_args(message):
 
 def get_spider_list(project, runner=None, pythonpath=None, version=''):
     """Return the spider list from the given project, using the given runner"""
-    if "cache" not in get_spider_list.__dict__:
-        get_spider_list.cache = UtilsCache()
-    try:
-        return get_spider_list.cache[project][version]
-    except KeyError:
-        pass
+    # if "cache" not in get_spider_list.__dict__:
+    #     get_spider_list.cache = UtilsCache()
+    # try:
+    #     return get_spider_list.cache[project][version]
+    # except KeyError:
+    #     pass
     if runner is None:
         runner = Config().get('runner')
     env = os.environ.copy()
@@ -143,12 +144,12 @@ def get_spider_list(project, runner=None, pythonpath=None, version=''):
     # FIXME: can we reliably decode as UTF-8?
     # scrapy list does `print(list)`
     tmp = out.decode('utf-8').splitlines()
-    try:
-        project_cache = get_spider_list.cache[project]
-        project_cache[version] = tmp
-    except KeyError:
-        project_cache = {version: tmp}
-    get_spider_list.cache[project] = project_cache
+    # try:
+    #     project_cache = get_spider_list.cache[project]
+    #     project_cache[version] = tmp
+    # except KeyError:
+    #     project_cache = {version: tmp}
+    # get_spider_list.cache[project] = project_cache
     return tmp
 
 

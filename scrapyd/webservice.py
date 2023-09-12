@@ -1,6 +1,7 @@
 import traceback
 import uuid
 from copy import copy
+from datetime import datetime
 from io import BytesIO
 
 from twisted.python import log
@@ -57,10 +58,16 @@ class Schedule(WsResource):
         if spider not in spiders:
             return {"status": "error", "message": "spider '%s' not found" % spider}
         args['settings'] = settings
-        jobid = args.pop('jobid', uuid.uuid1().hex)
+        jobid = self._make_jobid(args)
         args['_job'] = jobid
         self.root.scheduler.schedule(project, spider, priority=priority, **args)
         return {"node_name": self.root.nodename, "status": "ok", "jobid": jobid}
+
+    @staticmethod
+    def _make_jobid(args):
+        date = datetime.now().strftime('%Y-%m-%d')
+        jobid = args.pop('jobid', uuid.uuid1().hex)
+        return f'{date}_{jobid}'
 
 
 class Cancel(WsResource):

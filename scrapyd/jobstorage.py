@@ -8,7 +8,7 @@ from scrapyd.utils import sqlite_connection_string
 
 
 def job_log_url(job):
-    return f"/logs/{job.project}/{job.spider}/{job.job}.log"
+    return f"/{job.project}/{job.spider}/{job.job}.log"
 
 
 def job_items_url(job):

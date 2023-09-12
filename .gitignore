@@ -22,3 +22,4 @@ venv
 /eggs
 /items
 /logs
+test_scrapy_project
