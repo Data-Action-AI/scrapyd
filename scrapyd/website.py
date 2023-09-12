@@ -216,7 +216,7 @@ class Jobs(PrefixHeaderMixin, resource.Resource):
                 "PID": p.pid,
                 "Start": microsec_trunc(p.start_time),
                 "Runtime": microsec_trunc(datetime.now() - p.start_time),
-                "Log": f'<a href="/{self.logsdir}{self.base_path}{job_log_url(p)}">Log</a>',
+                "Log": f'<a href="/{self.root.logsdir}{self.base_path}{job_log_url(p)}">Log</a>',
                 "Items": f'<a href="{self.base_path}{job_items_url(p)}">Items</a>',
                 "Cancel": self.cancel_button(project=p.project, jobid=p.job, base_path=self.base_path),
             })
@@ -232,7 +232,7 @@ class Jobs(PrefixHeaderMixin, resource.Resource):
                 "Start": microsec_trunc(p.start_time),
                 "Runtime": microsec_trunc(p.end_time - p.start_time),
                 "Finish": microsec_trunc(p.end_time),
-                "Log": f'<a href="/{self.logsdir}{self.root.logsdir}{self.base_path}{job_log_url(p)}">Log</a>',
+                "Log": f'<a href="/{self.root.logsdir}{self.root.logsdir}{self.base_path}{job_log_url(p)}">Log</a>',
                 "Items": f'<a href="{self.base_path}{job_items_url(p)}">Items</a>',
             })
             for p in self.root.launcher.finished
