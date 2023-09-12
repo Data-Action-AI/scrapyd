@@ -22,14 +22,14 @@ class Root(resource.Resource):
         self.debug = config.getboolean('debug', False)
         self.runner = config.get('runner')
         self.prefix_header = config.get('prefix_header')
-        self.logsdir = config.get('logs_dir')
+        self.logsdir = config.get('logs_dir') or 'logs'
+        logsdir_enc = self.logsdir.encode('ascii', 'ignore')
+        self.putChild(logsdir_enc, static.File(logsdir_enc, 'text/plain'))
         itemsdir = config.get('items_dir')
         self.local_items = itemsdir and (urlparse(itemsdir).scheme.lower() in ['', 'file'])
         self.app = app
         self.nodename = config.get('node_name', socket.gethostname())
         self.putChild(b'', Home(self, self.local_items))
-        # if logsdir:
-        #     self.putChild(b'logs', static.File(logsdir.encode('ascii', 'ignore'), 'text/plain'))
         if self.local_items:
             self.putChild(b'items', static.File(itemsdir, 'text/plain'))
         self.putChild(b'jobs', Jobs(self, self.local_items))
