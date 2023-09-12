@@ -22,14 +22,14 @@ class Root(resource.Resource):
         self.debug = config.getboolean('debug', False)
         self.runner = config.get('runner')
         self.prefix_header = config.get('prefix_header')
-        logsdir = config.get('logs_dir')
+        self.logsdir = config.get('logs_dir')
         itemsdir = config.get('items_dir')
         self.local_items = itemsdir and (urlparse(itemsdir).scheme.lower() in ['', 'file'])
         self.app = app
         self.nodename = config.get('node_name', socket.gethostname())
         self.putChild(b'', Home(self, self.local_items))
-        if logsdir:
-            self.putChild(b'logs', static.File(logsdir.encode('ascii', 'ignore'), 'text/plain'))
+        # if logsdir:
+        #     self.putChild(b'logs', static.File(logsdir.encode('ascii', 'ignore'), 'text/plain'))
         if self.local_items:
             self.putChild(b'items', static.File(itemsdir, 'text/plain'))
         self.putChild(b'jobs', Jobs(self, self.local_items))
@@ -216,7 +216,7 @@ class Jobs(PrefixHeaderMixin, resource.Resource):
                 "PID": p.pid,
                 "Start": microsec_trunc(p.start_time),
                 "Runtime": microsec_trunc(datetime.now() - p.start_time),
-                "Log": f'<a href="{self.base_path}{job_log_url(p)}">Log</a>',
+                "Log": f'<a href="/{self.logsdir}{self.base_path}{job_log_url(p)}">Log</a>',
                 "Items": f'<a href="{self.base_path}{job_items_url(p)}">Items</a>',
                 "Cancel": self.cancel_button(project=p.project, jobid=p.job, base_path=self.base_path),
             })
@@ -232,7 +232,7 @@ class Jobs(PrefixHeaderMixin, resource.Resource):
                 "Start": microsec_trunc(p.start_time),
                 "Runtime": microsec_trunc(p.end_time - p.start_time),
                 "Finish": microsec_trunc(p.end_time),
-                "Log": f'<a href="{self.base_path}{job_log_url(p)}">Log</a>',
+                "Log": f'<a href="/{self.logsdir}{self.root.logsdir}{self.base_path}{job_log_url(p)}">Log</a>',
                 "Items": f'<a href="{self.base_path}{job_items_url(p)}">Items</a>',
             })
             for p in self.root.launcher.finished
