@@ -15,10 +15,12 @@ http://scrapyd.readthedocs.org/
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/scrapyd.svg
    :target: https://pypi.org/project/scrapyd/
 .. |Build Status| image:: https://github.com/scrapy/scrapyd/workflows/Tests/badge.svg
-.. |Coverage Status| image:: https://codecov.io/gh/scrapy/scrapyd/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/scrapy/scrapyd
 .. |Python Version| image:: https://img.shields.io/pypi/pyversions/scrapyd.svg
    :target: https://pypi.org/project/scrapyd/
 .. |Pypi Downloads| image:: https://img.shields.io/pypi/dm/scrapyd.svg
    :target: https://pypi.python.org/pypi/scrapyd/
 .. _Scrapy: https://github.com/scrapy/scrapy
+
+----
+
+To save scrapyd cache to file add to scrapyd.conf: `cache_dbs = dbs/cache.db`
