@@ -73,6 +73,7 @@ class Home(PrefixHeaderMixin, resource.Resource):
         vars = {
             'projects': ', '.join(self.root.scheduler.list_projects()),
             'base_path': self.get_base_path(txrequest),
+            'logs_path': self.root.logsdir,
         }
         s = """
 <html>
@@ -86,7 +87,7 @@ class Home(PrefixHeaderMixin, resource.Resource):
         if self.local_items:
             s += '<li><a href="%(base_path)s/items/">Items</a></li>'
         s += """
-<li><a href="%(base_path)s/logs/">Logs</a></li>
+<li><a href="%(base_path)s/%(logs_path)s/">Logs</a></li>
 <li><a href="https://scrapyd.readthedocs.io/en/latest/">Documentation</a></li>
 </ul>
 
