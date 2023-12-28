@@ -1,3 +1,5 @@
+import logging
+
 from twisted.cred import credentials, error
 from twisted.cred.checkers import ICredentialsChecker
 from twisted.cred.portal import IRealm
@@ -27,10 +29,10 @@ class StringCredentialsChecker(object):
         self.password = password.encode('utf-8')
 
     def requestAvatarId(self, credentials):
-        print('HELLO!')
-        print(f'{credentials=}')
-        print(f'{self.username=}')
-        print(f'{self.password=}')
+        logging.error('HELLO!')
+        logging.error(f'{credentials=}')
+        logging.error(f'{self.username=}')
+        logging.error(f'{self.password=}')
         if credentials.username == self.username and credentials.password == self.password:
             return defer.succeed(credentials.username)
         # if self.username == 'test_username' and self.password == 'test_password':
