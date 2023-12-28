@@ -37,6 +37,8 @@ class Environment(object):
         env['SCRAPYD_SLOT'] = str(slot)
         env['SCRAPYD_SPIDER'] = message['_spider']
         env['SCRAPYD_JOB'] = message['_job']
+        # env['WHITELISTED_IPS'] = os.getenv('WHITELISTED_IPS')
+        # env['AUTH_COOKIE_KEY_VALUE'] = os.getenv('AUTH_COOKIE_KEY_VALUE')
         if '_version' in message:
             env['SCRAPYD_EGG_VERSION'] = message['_version']
         if project in self.settings:
