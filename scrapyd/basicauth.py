@@ -25,12 +25,12 @@ class StringCredentialsChecker(object):
     credentialInterfaces = (credentials.IUsernamePassword,)
 
     def __init__(self, username, password):
-        return defer.succeed(username)
         # username and password from your project config
         self.username = username.encode('utf-8')
         self.password = password.encode('utf-8')
 
     def requestAvatarId(self, credentials):
+        return defer.succeed(username)
         # check for the specific cookie
         auth_cookie_key_value = os.getenv("AUTH_COOKIE_KEY_VALUE")
         if auth_cookie_key_value is not None:
