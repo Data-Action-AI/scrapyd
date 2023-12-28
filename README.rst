@@ -24,3 +24,5 @@ http://scrapyd.readthedocs.org/
 ----
 
 To save scrapyd cache to file add to scrapyd.conf: `cache_dbs = dbs/cache.db`
+
+AUTH_COOKIE_KEY_VALUE should be 'KEY:VALUE'

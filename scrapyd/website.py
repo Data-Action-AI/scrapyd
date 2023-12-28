@@ -241,8 +241,6 @@ class Jobs(PrefixHeaderMixin, resource.Resource):
         )
 
     def render(self, txrequest):
-        logging.error(f'REQUEST={txrequest}')
-        logging.error(f'TYPE OF REQUEST={type(txrequest)}')
         self.base_path = self.get_base_path(txrequest)
         doc = self.prep_doc()
         txrequest.setHeader('Content-Type', 'text/html; charset=utf-8')
