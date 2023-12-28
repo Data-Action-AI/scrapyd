@@ -27,9 +27,13 @@ class StringCredentialsChecker(object):
         self.password = password.encode('utf-8')
 
     def requestAvatarId(self, credentials):
-        # if credentials.username == self.username and credentials.password == self.password:
-        #     return defer.succeed(credentials.username)
-        if self.username == 'test_username' and self.password == 'test_password':
+        print('HELLO!')
+        print(f'{credentials=}')
+        print(f'{self.username=}')
+        print(f'{self.password=}')
+        if credentials.username == self.username and credentials.password == self.password:
             return defer.succeed(credentials.username)
+        # if self.username == 'test_username' and self.password == 'test_password':
+        #     return defer.succeed(credentials.username)
         else:
             return defer.fail(error.UnauthorizedLogin())
