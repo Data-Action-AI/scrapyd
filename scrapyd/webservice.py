@@ -49,7 +49,9 @@ class DaemonStatus(WsResource):
 class Schedule(WsResource):
 
     def render_POST(self, txrequest):
+        import logging
         args = native_stringify_dict(copy(txrequest.args), keys_only=False)
+        logging.info(args)
         settings = args.pop('setting', [])
         settings = dict(x.split('=', 1) for x in settings)
         args = {k: v[0] for k, v in args.items()}
