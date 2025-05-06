@@ -69,7 +69,7 @@ class Schedule(WsResource):
                     pass
             if not memcached_port:
                 raise ValueError('There is no available port for memcached start.')
-            cmd = f'memcached -p {memcached_port} -m 30720 -d -u nobody'
+            cmd = f'memcached -u nobody -p {memcached_port} -m 30720 -d'
             params = loads(args['params'])
             params['memcached_port'] = memcached_port
             args['params'] = dumps(params)
