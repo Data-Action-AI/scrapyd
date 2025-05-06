@@ -6,7 +6,7 @@ import subprocess
 from copy import copy
 from datetime import datetime
 from io import BytesIO
-
+from json import loads, dumps
 from twisted.python import log
 
 from scrapyd.jobstorage import job_items_url, job_log_url
@@ -70,6 +70,9 @@ class Schedule(WsResource):
             if not memcached_port:
                 raise ValueError('There is no available port for memcached start.')
             cmd = f'memcached -p {memcached_port} -m 30720 -d'
+            params = loads(args['params'])
+            params['memcached_port'] = memcached_port
+            args['params'] = dumps(params)
             subprocess.Popen(cmd, preexec_fn=lambda: os.setsid(), shell=True)
 
         version = args.get('_version', '')
