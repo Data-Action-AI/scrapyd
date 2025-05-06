@@ -49,16 +49,16 @@ class DaemonStatus(WsResource):
 class Schedule(WsResource):
 
     def render_POST(self, txrequest):
-        import logging
         args = native_stringify_dict(copy(txrequest.args), keys_only=False)
-        print(args)
         settings = args.pop('setting', [])
         settings = dict(x.split('=', 1) for x in settings)
         args = {k: v[0] for k, v in args.items()}
         project = args.pop('project')
         spider = args.pop('spider')
         start_memcached = args.pop('start_memcached', None)
-        if start_memcached:
+        import logging
+        logging.info(start_memcached)
+        if start_memcached and eval(start_memcached):
             memcached_port = None
             import socket
             for port in range(9000, 9100):
