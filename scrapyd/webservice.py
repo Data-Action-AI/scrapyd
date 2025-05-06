@@ -56,7 +56,6 @@ class Schedule(WsResource):
         project = args.pop('project')
         spider = args.pop('spider')
         start_memcached = args.pop('start_memcached', None)
-        print(start_memcached)
         if start_memcached and eval(start_memcached):
             memcached_port = None
             import socket
