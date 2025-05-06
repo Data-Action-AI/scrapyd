@@ -1,5 +1,8 @@
 import traceback
 import uuid
+import os
+import subprocess
+
 from copy import copy
 from datetime import datetime
 from io import BytesIO
@@ -52,6 +55,11 @@ class Schedule(WsResource):
         args = {k: v[0] for k, v in args.items()}
         project = args.pop('project')
         spider = args.pop('spider')
+        memcached_port = args.pop('memcached_port', None)
+        if memcached_port:
+            cmd = f'memcached -p {memcached_port} -m 30720 -d'
+            subprocess.Popen(cmd, preexec_fn=lambda: os.setsid(), shell=True)
+
         version = args.get('_version', '')
         priority = float(args.pop('priority', 0))
         spiders = get_spider_list(project, version=version)
