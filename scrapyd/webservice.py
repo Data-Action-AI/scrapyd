@@ -55,8 +55,20 @@ class Schedule(WsResource):
         args = {k: v[0] for k, v in args.items()}
         project = args.pop('project')
         spider = args.pop('spider')
-        memcached_port = args.pop('memcached_port', None)
-        if memcached_port:
+        start_memcached = args.pop('start_memcached', None)
+        if start_memcached:
+            memcached_port = None
+            import socket
+            for port in range(9000, 9100):
+                try:
+                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                        s.bind(('localhost', port))
+                        memcached_port = port
+                        break
+                except:
+                    pass
+            if not memcached_port:
+                raise ValueError('There is no available port for memcached start.')
             cmd = f'memcached -p {memcached_port} -m 30720 -d'
             subprocess.Popen(cmd, preexec_fn=lambda: os.setsid(), shell=True)
 
